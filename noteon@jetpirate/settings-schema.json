@@ -1,0 +1,87 @@
+{
+  "layout1": {
+    "type": "layout",
+    "pages": ["page1", "page2"],
+    "page1": {
+      "type": "page",
+      "title": "Visible settings",
+      "sections": ["section1", "section3"]
+    },
+    "page2": {
+      "type": "page",
+      "title": "Choosers",
+      "sections": ["section2"]
+    },
+    "section1": {
+      "type": "section",
+      "title": "Panel settings",
+      "keys": ["icon-name", "use-custom-label", "custom-label", "background-color", "notification-color", "spinner-number"]
+    },
+    "section2": {
+      "type": "section",
+      "title": "File chooser",
+      "keys": ["save-file", "file-editor"]
+    },
+    "section3" : {
+      "type": "section",
+      "title": "Check for updates",
+      "keys": ["check-updates"]
+    }
+  },
+  "icon-name": {
+    "type": "iconfilechooser",
+    "default" : "text-editor",
+    "description" : "The icon to use in the panel",
+    "tooltip" : "Select an icon file, or you can type an icon name into the entry box"
+  },
+  "use-custom-label" : {
+    "type" : "switch",
+    "default" : false,
+    "description": "Check this to use a custom label"
+  },
+  "custom-label" : {
+    "type" : "entry",
+    "default" : " ~hello there~",
+    "description" : "Custom Applet Label",
+    "indent": true,
+    "dependency" : "use-custom-label"
+  },
+  "background-color" : {
+    "type": "colorchooser",
+    "default" : "purple",
+    "description" : "The background color for the applet",
+    "tooltip" : "Click the button to select a new background color for this applet"
+  },
+  "notification-color" : {
+    "type": "colorchooser",
+    "default" : "chocolate",
+    "description" : "The background color for the applet notifications",
+    "tooltip" : "Click the button to select a new background color for notifications"
+  },
+  "spinner-number" : {
+    "type": "spinbutton",
+    "default" : 125,
+    "min" : 20,
+    "max" : 400,
+    "step" : 5,
+    "units" : "pixels",
+    "description" : "Applet width in the panel",
+    "tooltip" : "Increase or decrease this spinner value to make the applet wider or narrower in the panel"
+  },
+  "save-file" : {
+    "type" : "filechooser",
+    "description": "Choose a file to save to",
+    "default" : "/",
+    "select-dir" : false
+  },
+  "file-editor": {
+    "type" : "entry",
+    "default" : "gedit",
+    "description" : "The editor that should be used to edit the file"
+  },
+  "check-updates": {
+    "type" : "button",
+    "description" : "Check for updates",
+    "callback" : "check_updates_callback"
+  }
+}

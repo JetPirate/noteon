@@ -1,0 +1,10 @@
+{
+  "uuid": "noteon@jetpirate",
+  "name": "NoteON",
+  "description": "Click on the applet to show a file with your notes.\n\nSomething doesn't work or a feature is missing? Create an issue here: https://github.com/JetPirate/noteon/issues",
+  "author": "Oleh Fedorenko (fpostoleh@gmail.com)",
+  "url": "https://github.com/JetPirate/noteon",
+  "icon": "text-editor",
+  "max-instances": "-1",
+  "version": "1.0.0"
+}
