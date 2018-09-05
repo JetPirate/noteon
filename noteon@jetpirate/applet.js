@@ -46,7 +46,6 @@ MyApplet.prototype = {
 
     this.save_file_content = new PopupMenu.PopupMenuItem("");
     this.save_file_content.label.clutter_text.set_editable(true);
-    this.save_file_content.label.clutter_text.set_activatable(true);
     this.save_file_content.label.clutter_text.set_reactive(true);
     this.menu.addMenuItem(this.save_file_content);
 
