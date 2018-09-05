@@ -28,17 +28,21 @@ MyApplet.prototype = {
 
     this.settings = new Settings.AppletSettings(this, "noteon@jetpirate", instance_id);
 
-    this.settings.bind("icon-name", "icon_name", this.on_settings_changed);
-    this.settings.bind("use-custom-label",  "use_custom_label", this.on_settings_changed);
-    this.settings.bind("custom-label", "custom_label", this.on_settings_changed);
-    this.settings.bind("background-color", "background_color", this.on_settings_changed);
-    this.settings.bind("notification-color", "notification_color", this.on_settings_changed);
-    this.settings.bind("spinner-number", "spinner_number", this.on_settings_changed);
-    this.settings.bind("save-file", "save_file", this.on_settings_changed);
-    this.settings.bind("file-editor", "file_editor", this.on_settings_changed);
+    this.settings.bind("icon-name", "icon_name", this.settings_changed_callback);
+    this.settings.bind("use-custom-label",  "use_custom_label", this.settings_changed_callback);
+    this.settings.bind("custom-label", "custom_label", this.settings_changed_callback);
+    this.settings.bind("background-color", "background_color", this.settings_changed_callback);
+    this.settings.bind("notification-color", "notification_color", this.settings_changed_callback);
+    this.settings.bind("spinner-number", "spinner_number", this.settings_changed_callback);
+    this.settings.bind("save-file", "save_file", this.save_file_changed_callback);
+    this.settings.bind("file-editor", "file_editor", this.settings_changed_callback);
 
-    // Show help by default
-    this.save_file = "file///" + AppRoot + "/README";
+    if (GLib.file_test(this.get_stash_file_path(), GLib.FileTest.EXISTS)) {
+      this.save_file = GLib.file_get_contents(this.get_stash_file_path())[1].toString();
+    } else {
+      // Show help by default
+      this.save_file = "file///" + AppRoot + "/README";
+    }
 
     this.save_file_content = new PopupMenu.PopupMenuItem("");
     this.save_file_content.label.clutter_text.set_editable(true);
@@ -54,13 +58,17 @@ MyApplet.prototype = {
     this.command_save.connect("activate", Lang.bind(this, this.command_save_callback));
     this.menu.addMenuItem(this.command_save);
 
-    this.on_settings_changed();
+    this.settings_changed_callback();
   },
-  on_settings_changed: function() {
+  save_file_changed_callback: function() {
+    GLib.file_set_contents(this.get_stash_file_path(), this.save_file);
+    this.update_save_file();
+  },
+  settings_changed_callback: function() {
     if (this.use_custom_label) {
       this.set_applet_label(this.custom_label);
     } else {
-      this.set_applet_label(_("~hello there~"));
+      this.set_applet_label("~hello there~");
     }
 
     let icon_file = Gio.File.new_for_path(this.icon_name);
@@ -90,6 +98,9 @@ MyApplet.prototype = {
   get_save_file_path: function() {
     return this.save_file.substring(6);
   },
+  get_stash_file_path: function() {
+    return AppRoot + "/stash";
+  },
   command_open_callback: function() {
     Main.Util.spawnCommandLine(this.file_editor + " " + this.get_save_file_path());
   },
@@ -112,7 +123,7 @@ MyApplet.prototype = {
     this.set_applet_label(answer);
 
     var timeoutId = Mainloop.timeout_add(3000, Lang.bind(this, function() {
-      this.on_settings_changed();
+      this.settings_changed_callback();
     }));
 
     Tweener.addTween(this._applet_icon, {
