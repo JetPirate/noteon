@@ -49,6 +49,9 @@ MyApplet.prototype = {
     this.save_file_content.label.clutter_text.set_reactive(true);
     this.menu.addMenuItem(this.save_file_content);
 
+    this.menu_separator = new PopupMenu.PopupSeparatorMenuItem();
+    this.menu.addMenuItem(this.menu_separator);
+
     this.command_open = new PopupMenu.PopupMenuItem("OPEN");
     this.command_open.connect("activate", Lang.bind(this, this.command_open_callback));
     this.menu.addMenuItem(this.command_open);
